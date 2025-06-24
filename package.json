@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "aframe": "^1.7.1",
+    "aframe-extras": "^7.5.4",
     "ar.js": "^2.2.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
