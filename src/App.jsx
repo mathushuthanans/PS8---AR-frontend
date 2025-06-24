@@ -1,3 +1,4 @@
+// src/App.jsx
 import { useState, useEffect } from 'react'
 import './App.css'
 import ARScene from './ARScene'
@@ -35,19 +36,32 @@ function App() {
   return (
     <>
       <div className="card">
-        {loading && <p>Loading air quality data...</p>}
-        {error && <p className="error">Error: {error}</p>}
-        
-        {airData && (
-          <div style={{ marginBottom: '20px' }}>
-            <h3>Air Quality Data</h3>
-            <p>Location: {airData.city}</p>
-            <p>PM2.5: {airData.pm25} µg/m³</p>
-            <p>PM10: {airData.pm10} µg/m³</p>
-          </div>
-        )}
 
-        <div style={{ marginTop: '20px' }}>
+        {/* Section 1 — Live Data */}
+        <section style={{ marginBottom: '20px' }}>
+          <h2>Live Air Quality</h2>
+          {loading && <p>Loading air quality data...</p>}
+          {error && <p className="error">Error: {error}</p>}
+          
+          {airData && (
+            <div>
+              <p><strong>Location:</strong> {airData.city}</p>
+              <p><strong>PM2.5:</strong> {airData.pm25} µg/m³</p>
+              <p><strong>PM10:</strong> {airData.pm10} µg/m³</p>
+            </div>
+          )}
+
+          <button 
+            onClick={fetchAirQuality}
+            style={{ marginTop: '10px' }}
+          >
+            Refresh Data
+          </button>
+        </section>
+
+        {/* Section 2 — Demo Mode */}
+        <section style={{ marginBottom: '20px' }}>
+          <h2>Demo Mode</h2>
           <label>
             Adjust PM2.5 Level (for demo):
             <input 
@@ -60,24 +74,23 @@ function App() {
             />
             {pm25} µg/m³
           </label>
-        </div>
-        
-        <button 
-          onClick={() => setShowAR(!showAR)}
-          style={{ marginTop: '10px' }}
-          disabled={loading}
-        >
-          {showAR ? 'Hide AR Scene' : 'Show AR Scene'}
-        </button>
-        
-        <button 
-          onClick={fetchAirQuality}
-          style={{ marginTop: '10px', marginLeft: '10px' }}
-        >
-          Refresh Data
-        </button>
+        </section>
+
+        {/* Section 3 — AR Scene Control */}
+        <section>
+          <h2>AR Scene</h2>
+          <p>Enter full-screen to launch the AR experience.</p>
+          <button 
+            onClick={() => setShowAR(!showAR)}
+            disabled={loading}
+          >
+            {showAR ? 'Close AR Scene' : 'Enter AR Scene'}
+          </button>
+        </section>
+
       </div>
-      
+
+      {/* Show AR Scene only when requested */}
       {showAR && <ARScene pm25={pm25} />}
     </>
   )
